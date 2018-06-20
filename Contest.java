@@ -104,7 +104,7 @@ public class Contest {
             new Contender() {
                 @Override
                 public String getDescription() {
-                    return "(#4) Edwin-4, Parallel attempt (FAILED... Sorry, Edwin)";
+                    return "(#4) Edwin-4, Parallel stream version";
                 }
 
                 @Override
@@ -115,7 +115,7 @@ public class Contest {
                     complements.put('T', 'A');
                     complements.put('C', 'G');
                     complements.put('G', 'C');
-                    input.chars().mapToObj(i -> (char)i).parallel().forEach(value -> result.append(complements.get(value)));
+                    input.chars().mapToObj(i -> (char)i).parallel().forEachOrdered(value -> result.append(complements.get(value)));
                     return result.toString();
                 }
             },
