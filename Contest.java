@@ -230,9 +230,34 @@ public class Contest {
                 public String convert(String input) {
                     return null;
                 }
+            },
+            ////////////////////////////////////////////////////////
+            new Contender() {
+                @Override
+                public String getDescription() {
+                    return "(#10) Jan-1, dirty :)";
+                }
+
+                @Override
+                public String convert(final String input) {
+                    char[] ca = input.toCharArray();
+                    for (int i=0; i<ca.length; i++) {
+                        char c = ca[i];
+                        if ('A' == c) {
+                            ca[i] ='T';
+                        } else if ('T' == c) {
+                            ca[i] ='A';
+                        } else if ('C' == c) {
+                            ca[i] ='G';
+                        } else if ('G' == c) {
+                            ca[i] ='C';
+                        }
+                    }
+
+                    return new String(ca);
+                }
             }
             ////////////////////////////////////////////////////////
-
     );
 
     /**
