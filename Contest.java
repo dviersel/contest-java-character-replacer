@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
+import java.util.stream.IntStream;
 
 /**
  * Contest, find the quickest run/algorithm for converting a "deoxyribonucleic acid" chain.
@@ -135,6 +136,23 @@ public class Contest {
                             .replace('T', 'a')
                             .replace('C', 'g')
                             .replace('G', 'c')
+                            .toUpperCase();
+                }
+            },
+            ////////////////////////////////////////////////////////
+            new Contender() {
+                @Override
+                public String getDescription() {
+                    return "(#5-b) Thijs-1, simple replace + to-upper (half of them to-upper)";
+                }
+
+                @Override
+                public String convert(String input) {
+                    return input
+                            .replace('A', 't')
+                            .replace('T', 'A')
+                            .replace('C', 'g')
+                            .replace('G', 'C')
                             .toUpperCase();
                 }
             },
@@ -423,58 +441,44 @@ public class Contest {
             },
             ////////////////////////////////////////////////////////
             new Contender() {
-                class Block {
-                    long index;
-                    String input;
-                    String output;
-                }
+                int partCount = 200;
+                final char[] outputChars = new char[CHAIN_SIZE];
 
                 @Override
                 public String getDescription() {
-                    return "(#15) Milo-2, parallel string replace";
+                    return "(#15) Milo-3, parallel char replace";
                 }
 
                 @Override
                 public String convert(String input) {
                     // Split input in multiple parts
-                    long partCount = 400;
-                    List<Block> blocks = new ArrayList<>();
-                    for (long i = 0; i < partCount; i++) {
-                        long start = i * CHAIN_SIZE / partCount;
-                        long end = start + CHAIN_SIZE / partCount;
-                        Block block = new Block();
-                        block.index = i;
-                        block.input = input.substring(new Long(start).intValue(), new Long(end).intValue());
-                        blocks.add(block);
-                    }
+                    final char[] inputChars = input.toCharArray();
 
-                    StringBuilder result = new StringBuilder(input.length());
-                    blocks.parallelStream().forEach(block -> block.output = multiReplace(block.input));
+                    IntStream.range(0, partCount).parallel().forEach(block -> multiReplace(inputChars, block));
 
-                    blocks.forEach(block -> result.append(block.output));
-                    return result.toString();
+                    return new String(outputChars);
                 }
 
-                String multiReplace(String input) {
-                    byte[] inputBytes = input.getBytes();
-                    byte[] outputBytes = new byte[inputBytes.length];
-                    for (int i = 0; i < inputBytes.length; i++) {
-                        switch (inputBytes[i]) {
+                void multiReplace(final char[] inputChars, long block) {
+                    int start = new Long(block * CHAIN_SIZE / partCount).intValue();
+                    int end = start + CHAIN_SIZE / partCount;
+
+                    for (int i = start; i < end; i++) {
+                        switch (inputChars[i]) {
                             case 'A':
-                                outputBytes[i] = 'T';
+                                outputChars[i] = 'T';
                                 break;
                             case 'T':
-                                outputBytes[i] = 'A';
+                                outputChars[i] = 'A';
                                 break;
                             case 'C':
-                                outputBytes[i] = 'G';
+                                outputChars[i] = 'G';
                                 break;
                             case 'G':
-                                outputBytes[i] = 'C';
+                                outputChars[i] = 'C';
                                 break;
                         }
                     }
-                    return new String(outputBytes);
                 }
             }
             ////////////////////////////////////////////////////////
