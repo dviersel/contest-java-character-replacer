@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.Random;
  * We write and run this for java 8. We noticed that (#5) is the quickest one (on my machine), and that
  * relative speeds vary depending on the CPU architecture you are running on.
  * Correction: (#11) is the winner now! Well done Jan! (ok, inspired by #5).
+ * Another correction... (#12)  is a new winner ;-) Nice one Milo!
  */
 public class Contest {
 
@@ -275,8 +277,49 @@ public class Contest {
                             .replace('t', 'T')
                             .replace('g', 'G');
                 }
+            },
+            ////////////////////////////////////////////////////////
+            new Contender() {
+                class Block {
+                    int index;
+                    String input;
+                    String output;
+                }
+
+                @Override
+                public String getDescription() {
+                    return "(#12) Milo-1, parallel string replace";
+                }
+
+                @Override
+                public String convert(String input) {
+                    // Split input in multiple parts
+                    int partCount = 8;
+                    List<Block> blocks = new ArrayList<>();
+                    for (int i = 0; i < partCount; i++) {
+                        int start = i * CHAIN_SIZE / partCount;
+                        int end = start + CHAIN_SIZE / partCount;
+                        Block block = new Block();
+                        block.index = i;
+                        block.input = input.substring(start, end);
+                        blocks.add(block);
+                    }
+
+                    StringBuilder result = new StringBuilder(input.length());
+                    blocks.parallelStream().forEach(block -> block.output =
+                            block.input.replace('A', 't')
+                                    .replace('T', 'a')
+                                    .replace('C', 'g')
+                                    .replace('G', 'c')
+                                    .toUpperCase());
+
+                    blocks.forEach(block -> result.append(block.output));
+                    return result.toString();
+                }
             }
             ////////////////////////////////////////////////////////
+
+
     );
 
     /**
@@ -358,13 +401,18 @@ public class Contest {
 
         Integer checkHash = null;
         for (Contender contender : contenders) {
-            // Cleanup memory (I know, we are not smarter than JVM, but trying anyway)
-            Runtime.getRuntime().gc();
-            Thread.sleep(500);
 
-            t = System.currentTimeMillis();
-            String result = contender.convert(input);
-            procTime = (System.currentTimeMillis() - t);
+            // We run the contender 5 times, to get a "warming-up" (jit compiler optimization).
+            String result = null;
+            for (int warmingUps = 0 ; warmingUps < 5 ; warmingUps++) {
+                // Cleanup memory (I know, we are not smarter than JVM, but trying anyway)
+                Runtime.getRuntime().gc();
+                Thread.sleep(500);
+
+                t = System.currentTimeMillis();
+                result = contender.convert(input);
+                procTime = (System.currentTimeMillis() - t);
+            }
 
             report(contender.getDescription(), result, procTime, checkHash);
             if (checkHash == null && result != null) {
@@ -372,7 +420,6 @@ public class Contest {
                 checkHash = result.hashCode();
             }
         }
-
     }
 
 
