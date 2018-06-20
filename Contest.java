@@ -420,7 +420,64 @@ public class Contest {
 
                     return new String(output);
                 }
+            },
+            ////////////////////////////////////////////////////////
+            new Contender() {
+                class Block {
+                    int index;
+                    String input;
+                    String output;
+                }
+
+                @Override
+                public String getDescription() {
+                    return "(#15) Milo-2, parallel string replace";
+                }
+
+                @Override
+                public String convert(String input) {
+                    // Split input in multiple parts
+                    int partCount = 8;
+                    List<Block> blocks = new ArrayList<>();
+                    for (int i = 0; i < partCount; i++) {
+                        int start = i * CHAIN_SIZE / partCount;
+                        int end = start + CHAIN_SIZE / partCount;
+                        Block block = new Block();
+                        block.index = i;
+                        block.input = input.substring(start, end);
+                        blocks.add(block);
+                    }
+
+                    StringBuilder result = new StringBuilder(input.length());
+                    blocks.parallelStream().forEach(block -> block.output = multiReplace(block.input));
+
+                    blocks.forEach(block -> result.append(block.output));
+                    return result.toString();
+                }
+
+                String multiReplace(String input) {
+                    byte[] inputBytes = input.getBytes();
+                    byte[] outputBytes = new byte[inputBytes.length];
+                    for (int i = 0; i < inputBytes.length; i++) {
+                        switch (inputBytes[i]) {
+                            case 'A':
+                                outputBytes[i] = 'T';
+                                break;
+                            case 'T':
+                                outputBytes[i] = 'A';
+                                break;
+                            case 'C':
+                                outputBytes[i] = 'G';
+                                break;
+                            case 'G':
+                                outputBytes[i] = 'C';
+                                break;
+                        }
+                    }
+                    return new String(outputBytes);
+                }
             }
+            ////////////////////////////////////////////////////////
     );
 
     /**
