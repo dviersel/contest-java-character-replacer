@@ -3,47 +3,51 @@ java version "1.8.0_152"
 Java(TM) SE Runtime Environment (build 1.8.0_152-b16)
 Java HotSpot(TM) 64-Bit Server VM (build 25.152-b16, mixed mode)
 
-Generate input, result length: 22000000, result hash: -1972159784, process-time: 247 ms
-Result: CAGGGGACACGGACTGGGCTCATCTAATCCATACTCTCTAATAGAATCAAAACCCGAACG...TATCTGCAATCCTAAGTGAGCTTTCTTGTTCGCGATTATTCTATTTTGAGCGAACTTCCA (partial only)
-########################
+Generate input, result length: 22000000, result hash: 523689845, process-time: 252 ms
+Result: CTCCGCACCGGTAAGGACTCCGTTGCTCCTGCAGGTTGCAGTGGCCTGACCTCCCGGAAC...CAAGGCCCCTCGCAGGCTGTTGCTCGTCCCGATTAGATGGACCGAGACTCAAAGCTACCT (partial only)
+#########################
 ---
-(#1) Edwin-1, Map and Stream to StringBuilder, result length: 22000000, result hash: -1330142180, process-time: 667 ms
-Result: GTCCCCTGTGCCTGACCCGAGTAGATTAGGTATGAGAGATTATCTTAGTTTTGGGCTTGC...ATAGACGTTAGGATTCACTCGAAAGAACAAGCGCTAATAAGATAAAACTCGCTTGAAGGT (partial only)
+(#1) Edwin-1, Map and Stream to StringBuilder, result length: 22000000, result hash: -1725575473, process-time: 667 ms
+Result: GAGGCGTGGCCATTCCTGAGGCAACGAGGACGTCCAACGTCACCGGACTGGAGGGCCTTG...GTTCCGGGGAGCGTCCGACAACGAGCAGGGCTAATCTACCTGGCTCTGAGTTTCGATGGA (partial only)
 ##################################################################
 ---
-(#2) Edwin-2, Map and For to StringBuilder, result length: 22000000, result hash: -1330142180, process-time: 572 ms
-Result: GTCCCCTGTGCCTGACCCGAGTAGATTAGGTATGAGAGATTATCTTAGTTTTGGGCTTGC...ATAGACGTTAGGATTCACTCGAAAGAACAAGCGCTAATAAGATAAAACTCGCTTGAAGGT (partial only)
-#########################################################
+(#2) Edwin-2, Map and For to StringBuilder, result length: 22000000, result hash: -1725575473, process-time: 582 ms
+Result: GAGGCGTGGCCATTCCTGAGGCAACGAGGACGTCCAACGTCACCGGACTGGAGGGCCTTG...GTTCCGGGGAGCGTCCGACAACGAGCAGGGCTAATCTACCTGGCTCTGAGTTTCGATGGA (partial only)
+##########################################################
 ---
-(#3) Edwin-3, Map and For to StringBuffer, result length: 22000000, result hash: -1330142180, process-time: 825 ms
-Result: GTCCCCTGTGCCTGACCCGAGTAGATTAGGTATGAGAGATTATCTTAGTTTTGGGCTTGC...ATAGACGTTAGGATTCACTCGAAAGAACAAGCGCTAATAAGATAAAACTCGCTTGAAGGT (partial only)
-##################################################################################
+(#3) Edwin-3, Map and For to StringBuffer, result length: 22000000, result hash: -1725575473, process-time: 856 ms
+Result: GAGGCGTGGCCATTCCTGAGGCAACGAGGACGTCCAACGTCACCGGACTGGAGGGCCTTG...GTTCCGGGGAGCGTCCGACAACGAGCAGGGCTAATCTACCTGGCTCTGAGTTTCGATGGA (partial only)
+#####################################################################################
 ---
-(#4) Edwin-4, Parallel stream version, result length: 22000000, result hash: -1330142180, process-time: 622 ms
-Result: GTCCCCTGTGCCTGACCCGAGTAGATTAGGTATGAGAGATTATCTTAGTTTTGGGCTTGC...ATAGACGTTAGGATTCACTCGAAAGAACAAGCGCTAATAAGATAAAACTCGCTTGAAGGT (partial only)
-##############################################################
+(#4) Edwin-4, Parallel stream version, result length: 22000000, result hash: -1725575473, process-time: 601 ms
+Result: GAGGCGTGGCCATTCCTGAGGCAACGAGGACGTCCAACGTCACCGGACTGGAGGGCCTTG...GTTCCGGGGAGCGTCCGACAACGAGCAGGGCTAATCTACCTGGCTCTGAGTTTCGATGGA (partial only)
+############################################################
 ---
-(#5) Thijs-1, simple replace + to-upper, result length: 22000000, result hash: -1330142180, process-time: 150 ms
-Result: GTCCCCTGTGCCTGACCCGAGTAGATTAGGTATGAGAGATTATCTTAGTTTTGGGCTTGC...ATAGACGTTAGGATTCACTCGAAAGAACAAGCGCTAATAAGATAAAACTCGCTTGAAGGT (partial only)
-###############
+(#5) Thijs-1, simple replace + to-upper, result length: 22000000, result hash: -1725575473, process-time: 149 ms
+Result: GAGGCGTGGCCATTCCTGAGGCAACGAGGACGTCCAACGTCACCGGACTGGAGGGCCTTG...GTTCCGGGGAGCGTCCGACAACGAGCAGGGCTAATCTACCTGGCTCTGAGTTTCGATGGA (partial only)
+##############
 ---
-(#6) Thijs-2, For with if/else to StringBuilder, result length: 22000000, result hash: -1330142180, process-time: 207 ms
-Result: GTCCCCTGTGCCTGACCCGAGTAGATTAGGTATGAGAGATTATCTTAGTTTTGGGCTTGC...ATAGACGTTAGGATTCACTCGAAAGAACAAGCGCTAATAAGATAAAACTCGCTTGAAGGT (partial only)
+(#6) Thijs-2, For with if/else to StringBuilder, result length: 22000000, result hash: -1725575473, process-time: 202 ms
+Result: GAGGCGTGGCCATTCCTGAGGCAACGAGGACGTCCAACGTCACCGGACTGGAGGGCCTTG...GTTCCGGGGAGCGTCCGACAACGAGCAGGGCTAATCTACCTGGCTCTGAGTTTCGATGGA (partial only)
 ####################
 ---
-(#7) Thijs-3, For with switch/case to StringBuilder, result length: 22000000, result hash: -1330142180, process-time: 224 ms
-Result: GTCCCCTGTGCCTGACCCGAGTAGATTAGGTATGAGAGATTATCTTAGTTTTGGGCTTGC...ATAGACGTTAGGATTCACTCGAAAGAACAAGCGCTAATAAGATAAAACTCGCTTGAAGGT (partial only)
-######################
+(#7) Thijs-3, For with switch/case to StringBuilder, result length: 22000000, result hash: -1725575473, process-time: 219 ms
+Result: GAGGCGTGGCCATTCCTGAGGCAACGAGGACGTCCAACGTCACCGGACTGGAGGGCCTTG...GTTCCGGGGAGCGTCCGACAACGAGCAGGGCTAATCTACCTGGCTCTGAGTTTCGATGGA (partial only)
+#####################
 ---
-(#8) Thijs-4, For with if/else to byte array, result length: 22000000, result hash: -1330142180, process-time: 181 ms
-Result: GTCCCCTGTGCCTGACCCGAGTAGATTAGGTATGAGAGATTATCTTAGTTTTGGGCTTGC...ATAGACGTTAGGATTCACTCGAAAGAACAAGCGCTAATAAGATAAAACTCGCTTGAAGGT (partial only)
-##################
+(#8) Thijs-4, For with if/else to byte array, result length: 22000000, result hash: -1725575473, process-time: 176 ms
+Result: GAGGCGTGGCCATTCCTGAGGCAACGAGGACGTCCAACGTCACCGGACTGGAGGGCCTTG...GTTCCGGGGAGCGTCCGACAACGAGCAGGGCTAATCTACCTGGCTCTGAGTTTCGATGGA (partial only)
+#################
 ---
 (#9) Armand-1, replace with look-ahead regex (TODO // reserved spot, to be coded) - NO DATA
 ---
-(#10) Jan-1, dirty :), result length: 22000000, result hash: -1330142180, process-time: 159 ms
-Result: GTCCCCTGTGCCTGACCCGAGTAGATTAGGTATGAGAGATTATCTTAGTTTTGGGCTTGC...ATAGACGTTAGGATTCACTCGAAAGAACAAGCGCTAATAAGATAAAACTCGCTTGAAGGT (partial only)
+(#10) Jan-1, dirty :), result length: 22000000, result hash: -1725575473, process-time: 152 ms
+Result: GAGGCGTGGCCATTCCTGAGGCAACGAGGACGTCCAACGTCACCGGACTGGAGGGCCTTG...GTTCCGGGGAGCGTCCGACAACGAGCAGGGCTAATCTACCTGGCTCTGAGTTTCGATGGA (partial only)
 ###############
+---
+(#11) Jan-2, simple replace + no-upper, result length: 22000000, result hash: -1725575473, process-time: 116 ms
+Result: GAGGCGTGGCCATTCCTGAGGCAACGAGGACGTCCAACGTCACCGGACTGGAGGGCCTTG...GTTCCGGGGAGCGTCCGACAACGAGCAGGGCTAATCTACCTGGCTCTGAGTTTCGATGGA (partial only)
+###########
 ---
 
 CPU info (available if on linux)

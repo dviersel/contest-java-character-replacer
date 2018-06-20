@@ -22,6 +22,7 @@ import java.util.Random;
  *
  * We write and run this for java 8. We noticed that (#5) is the quickest one (on my machine), and that
  * relative speeds vary depending on the CPU architecture you are running on.
+ * Correction: (#11) is the winner now! Well done Jan! (ok, inspired by #5).
  */
 public class Contest {
 
@@ -255,6 +256,24 @@ public class Contest {
                     }
 
                     return new String(ca);
+                }
+            },
+            ////////////////////////////////////////////////////////
+            new Contender() {
+                @Override
+                public String getDescription() {
+                    return "(#11) Jan-2, simple replace + no-upper";
+                }
+
+                @Override
+                public String convert(String input) {
+                    return input
+                            .replace('A', 't')
+                            .replace('T', 'A')
+                            .replace('C', 'g')
+                            .replace('G', 'C')
+                            .replace('t', 'T')
+                            .replace('g', 'G');
                 }
             }
             ////////////////////////////////////////////////////////

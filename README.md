@@ -17,7 +17,7 @@ run the different implementations, and do some basic timing.
 
 We write and run this for java 8. We noticed that (#5) is the quickest one (on my machine), and that
 relative speeds vary depending on the CPU architecture you are running on.
-
+Correction: (#11) is the winner now! Well done Jan! (ok, inspired by #5).
 
 You can run this using (linux script):
 
