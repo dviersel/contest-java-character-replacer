@@ -29,7 +29,7 @@ import java.util.stream.IntStream;
 public class Contest {
 
     public static final int CHAIN_SIZE = 22000000;
-    public static final int BAR_GRAPH_MS_DIVISOR = 10;
+    public static final int BAR_GRAPH_MS_DIVISOR = 5;
 
     /**
      * This is the list of contenders. Consisting of a description and an implementation to run.
@@ -555,11 +555,16 @@ public class Contest {
      * @throws InterruptedException on error
      */
     public static void main(String[] args) throws InterruptedException {
-        long t = System.currentTimeMillis();
-        String input = generateInput(CHAIN_SIZE);
-        long procTime = (System.currentTimeMillis() - t);
+        String [] input = new String[5];
+        long procTime = -1;
+        // Generate 5 different inputs, to prevent contenders from caching results (they are run 5 times, and only last one shown).
+        for (int inputs = 0 ; inputs < 5 ; inputs++) {
+            long t = System.currentTimeMillis();
+            input[inputs] = generateInput(CHAIN_SIZE);
+            procTime = (System.currentTimeMillis() - t);
+        }
 
-        report("Generate input", input, procTime, null);
+        report("Generate input", input[4], procTime, null);
 
         Integer checkHash = null;
         for (Contender contender : contenders) {
@@ -571,8 +576,8 @@ public class Contest {
                 Runtime.getRuntime().gc();
                 Thread.sleep(500);
 
-                t = System.currentTimeMillis();
-                result = contender.convert(input);
+                long t = System.currentTimeMillis();
+                result = contender.convert(input[warmingUps]);
                 procTime = (System.currentTimeMillis() - t);
             }
 
