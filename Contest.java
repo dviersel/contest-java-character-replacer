@@ -424,7 +424,7 @@ public class Contest {
             ////////////////////////////////////////////////////////
             new Contender() {
                 class Block {
-                    int index;
+                    long index;
                     String input;
                     String output;
                 }
@@ -437,14 +437,14 @@ public class Contest {
                 @Override
                 public String convert(String input) {
                     // Split input in multiple parts
-                    int partCount = 8;
+                    long partCount = 400;
                     List<Block> blocks = new ArrayList<>();
-                    for (int i = 0; i < partCount; i++) {
-                        int start = i * CHAIN_SIZE / partCount;
-                        int end = start + CHAIN_SIZE / partCount;
+                    for (long i = 0; i < partCount; i++) {
+                        long start = i * CHAIN_SIZE / partCount;
+                        long end = start + CHAIN_SIZE / partCount;
                         Block block = new Block();
                         block.index = i;
-                        block.input = input.substring(start, end);
+                        block.input = input.substring(new Long(start).intValue(), new Long(end).intValue());
                         blocks.add(block);
                     }
 
