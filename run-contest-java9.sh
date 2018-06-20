@@ -1,5 +1,6 @@
 #!/bin/bash
 
-~/bin/java/jdk9/bin/java Contest >example-run-java9.txt
+~/bin/java/jdk9/bin/javac Contest.java 
+~/bin/java/jdk9/bin/java Contest
 rm -rf *Contest*.class*
 

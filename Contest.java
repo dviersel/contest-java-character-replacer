@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.RecursiveAction;
 
 /**
  * Contest, find the quickest run/algorithm for converting a "deoxyribonucleic acid" chain.
@@ -21,10 +23,7 @@ import java.util.Random;
  * The only methods of importance here are the "convert" implementations. The rest is used to
  * run the different implementations, and do some basic timing.
  *
- * We write and run this for java 8. We noticed that (#5) is the quickest one (on my machine), and that
- * relative speeds vary depending on the CPU architecture you are running on.
- * Correction: (#11) is the winner now! Well done Jan! (ok, inspired by #5).
- * Another correction... (#12)  is a new winner ;-) Nice one Milo!
+ * We write and run this for java 8. Also tried running in java 9, which seemed a bit quicker.
  */
 public class Contest {
 
@@ -316,10 +315,112 @@ public class Contest {
                     blocks.forEach(block -> result.append(block.output));
                     return result.toString();
                 }
-            }
+            },
             ////////////////////////////////////////////////////////
+            new Contender() {
+                class Block {
+                    int index;
+                    String input;
+                    String output;
+                }
 
+                @Override
+                public String getDescription() {
+                    return "(#13) Jan-3, Milo-1 + Jan-2, parallel string replace";
+                }
 
+                @Override
+                public String convert(String input) {
+                    // Split input in multiple parts
+                    int partCount = 8;
+                    List<Block> blocks = new ArrayList<>();
+                    for (int i = 0; i < partCount; i++) {
+                        int start = i * CHAIN_SIZE / partCount;
+                        int end = start + CHAIN_SIZE / partCount;
+                        Block block = new Block();
+                        block.index = i;
+                        block.input = input.substring(start, end);
+                        blocks.add(block);
+                    }
+
+                    StringBuilder result = new StringBuilder(input.length());
+                    blocks.parallelStream().forEach(block -> block.output =
+                            block.input.replace('A', 't')
+                                    .replace('T', 'A')
+                                    .replace('C', 'g')
+                                    .replace('G', 'C')
+                                    .replace('t', 'T')
+                                    .replace('g', 'G'));
+
+                    blocks.forEach(block -> result.append(block.output));
+                    return result.toString();
+                }
+            },
+            ////////////////////////////////////////////////////////
+            new Contender() {
+
+                @Override
+                public String getDescription() {
+                    return "(#14) Jan-4, ForkJoinPool";
+                }
+
+                class ChainOpposite extends RecursiveAction {
+                    private final char[] mSource;
+                    private final int mStart;
+                    private final int mLength;
+                    private final char[] mDestination;
+
+                    ChainOpposite(char[] mSource, int mStart, int mLength, char[] mDestination) {
+                        this.mSource = mSource;
+                        this.mStart = mStart;
+                        this.mLength = mLength;
+                        this.mDestination = mDestination;
+                    }
+
+                    protected void computeDirectly() {
+                        for (int index = mStart; index < mStart + mLength; index++) {
+                            if ('A' == mSource[index]) {
+                                mDestination[index] = 'T';
+                            } else if ('T' == mSource[index]) {
+                                mDestination[index] = 'A';
+                            } else if ('C' == mSource[index]) {
+                                mDestination[index] = 'G';
+
+                            } else if ('G' == mSource[index]) {
+                                mDestination[index] = 'C';
+
+                            }
+                        }
+
+                    }
+
+                    protected int sThreshold = 100000;
+
+                    protected void compute() {
+                        if (mLength < sThreshold) {
+                            computeDirectly();
+                            return;
+                        }
+
+                        int split = mLength / 2;
+
+                        invokeAll(new ChainOpposite(mSource, mStart, split, mDestination),
+                                new ChainOpposite(mSource, mStart + split, mLength - split,
+                                        mDestination));
+                    }
+                }
+
+                @Override
+                public String convert(String inputString) {
+                    char[] input = inputString.toCharArray();
+                    char[] output = new char[input.length];
+
+                    ForkJoinPool forkJoinPool = new ForkJoinPool();
+                    forkJoinPool.invoke(new ChainOpposite(input, 0, input.length, output));
+
+                    return new String(output);
+                }
+            }
     );
 
     /**

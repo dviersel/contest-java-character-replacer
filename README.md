@@ -15,10 +15,8 @@ The objective is to replace all the characters in the chain, according to these 
 The only methods of importance here are the "convert" implementations. The rest is used to
 run the different implementations, and do some basic timing.
 
-We write and run this for java 8. We noticed that (#5) is the quickest one (on my machine), and that
-relative speeds vary depending on the CPU architecture you are running on.
-Correction: (#11) is the winner now! Well done Jan! (ok, inspired by #5).
-Another correction... (#12)  is a new winner ;-) Nice one Milo!
+We write and run this for java 8. Also tried running in java 9, which seemed a bit quicker.
+
 
 You can run this using (linux script):
 
