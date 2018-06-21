@@ -1,9 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.stream.IntStream;
@@ -480,6 +475,65 @@ public class Contest {
                                 break;
                         }
                     }
+                }
+            },
+            ////////////////////////////////////////////////////////
+            new Contender() {
+                @Override
+                public String getDescription() {
+                    return "(#16) Jan-5, ForkJoinPool (direct write)";
+                }
+
+                class ChainOpposite extends RecursiveAction {
+                    private final char[] actionSource;
+                    private final int actionStart;
+                    private final int actionLength;
+
+                    ChainOpposite(char[] actionSource, int actionStart, int actionLength) {
+                        this.actionSource = actionSource;
+                        this.actionStart = actionStart;
+                        this.actionLength = actionLength;
+                    }
+
+                    void computeDirectly() {
+                        for (int index = actionStart; index < actionStart + actionLength; index++) {
+                            if ('A' == actionSource[index]) {
+                                actionSource[index] = 'T';
+                            } else if ('T' == actionSource[index]) {
+                                actionSource[index] = 'A';
+                            } else if ('C' == actionSource[index]) {
+                                actionSource[index] = 'G';
+                            } else if ('G' == actionSource[index]) {
+                                actionSource[index] = 'C';
+                            }
+                        }
+
+                    }
+
+                    int workSizeThreshold = 100000;
+
+                    protected void compute() {
+                        if (actionLength < workSizeThreshold) {
+                            computeDirectly();
+                            return;
+                        }
+
+                        int split = actionLength / 2;
+
+                        invokeAll(
+                                new ChainOpposite(actionSource, actionStart, split),
+                                new ChainOpposite(actionSource, actionStart + split, actionLength - split));
+                    }
+                }
+
+                @Override
+                public String convert(String inputString) {
+                    char[] dirtyInput = inputString.toCharArray();
+
+                    ForkJoinPool forkJoinPool = new ForkJoinPool();
+                    forkJoinPool.invoke(new ChainOpposite(dirtyInput, 0, CHAIN_SIZE));
+
+                    return new String(dirtyInput);
                 }
             }
             ////////////////////////////////////////////////////////
