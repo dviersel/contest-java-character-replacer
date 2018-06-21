@@ -1,9 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.stream.IntStream;
@@ -243,7 +238,8 @@ public class Contest {
             new Contender() {
                 @Override
                 public String getDescription() {
-                    return "(#9) Armand-1, replace with look-ahead regex (TODO // reserved spot, to be coded)";
+                    // (TODO // reserved spot, to be coded)
+                    return "(#9) Armand-1, replace with look-ahead regex.";
                 }
 
                 @Override
@@ -480,6 +476,70 @@ public class Contest {
                         }
                     }
                 }
+            },
+            ////////////////////////////////////////////////////////
+            new Contender() {
+                @Override
+                public String getDescription() {
+                    return "(#16) Jan-5, ForkJoinPool (direct write)";
+                }
+
+                private final char A = 'A';
+                private final char T = 'T';
+                private final char C = 'C';
+                private final char G = 'G';
+
+                class ChainOpposite extends RecursiveAction {
+                    private final char[] actionSource;
+                    private final int actionStart;
+                    private final int actionLength;
+
+                    ChainOpposite(char[] actionSource, int actionStart, int actionLength) {
+                        this.actionSource = actionSource;
+                        this.actionStart = actionStart;
+                        this.actionLength = actionLength;
+                    }
+
+                    void computeDirectly() {
+                        for (int index = actionStart; index < actionStart + actionLength; index++) {
+                            if (A == actionSource[index]) {
+                                actionSource[index] = T;
+                            } else if (T == actionSource[index]) {
+                                actionSource[index] = A;
+                            } else if (C == actionSource[index]) {
+                                actionSource[index] = G;
+                            } else if (G == actionSource[index]) {
+                                actionSource[index] = C;
+                            }
+                        }
+
+                    }
+
+                    int workSizeThreshold = 100000;
+
+                    protected void compute() {
+                        if (actionLength < workSizeThreshold) {
+                            computeDirectly();
+                            return;
+                        }
+
+                        int split = actionLength / 2;
+
+                        invokeAll(
+                                new ChainOpposite(actionSource, actionStart, split),
+                                new ChainOpposite(actionSource, actionStart + split, actionLength - split));
+                    }
+                }
+
+                @Override
+                public String convert(String inputString) {
+                    char[] dirtyInput = inputString.toCharArray();
+
+                    ForkJoinPool forkJoinPool = new ForkJoinPool();
+                    forkJoinPool.invoke(new ChainOpposite(dirtyInput, 0, CHAIN_SIZE));
+
+                    return new String(dirtyInput);
+                }
             }
             ////////////////////////////////////////////////////////
     );
@@ -524,28 +584,48 @@ public class Contest {
     }
 
     /**
+     * Write report header.
+     *
+     * @param format the format
+     * @param result result
+     * @param timeMs time in milliseconds
+     */
+    private static void reportHeader(String format, String result, long timeMs) {
+        System.out.println("Generated input (length: " + result.length() + ") in " + timeMs + " ms.\n");
+
+        String header = String.format(format, "Contender", "Length", "Hash", "Time", "Notes");
+        System.out.println(header);
+        for (int i = 0; i < header.length(); i++) {
+            System.out.print('-');
+        }
+        System.out.println();
+    }
+
+    /**
      * Write report.
+     *
+     * @param format the format
      * @param description info
-     * @param result converted input, passed in to verify correctness.
+     * @param result converted input, passed in to verify correctness
      * @param timeMs convert run duration
      * @param checkHash result must match this hash
      */
-    private static void report(String description, String result, long timeMs, Integer checkHash) {
-        if (result == null) {
-            System.out.println(description + " - NO DATA");
-            System.out.println("---");
-            return;
+    private static void report(String format, String description, String result, long timeMs, Integer checkHash) {
+        int length = result != null ? result.length() : -1;
+        int hash = result != null ? result.hashCode() : -1;
+        String note = "";
+
+        if (CHAIN_SIZE != length) {
+            note += "Length mismatch. ";
         }
-        System.out.println(description + ", result length: " + result.length() + ", result hash: " + result.hashCode() + ", process-time: " + timeMs + " ms");
-        if (CHAIN_SIZE != result.length()) {
-            System.out.println("*** ERROR *** length mismatch? *** check the implementation ***");
+        if (checkHash != null && checkHash != hash) {
+            note += "Hash-code mismatch.";
         }
-        if (checkHash != null && checkHash != result.hashCode()) {
-            System.out.println("*** ERROR *** hash-code mismatch? *** check the implementation ***");
-        }
-        System.out.println("Result: " + result.substring(0, 60) + "..." + result.substring(result.length() - 60, result.length()) + " (partial only)");
-        System.out.println(barGraph((int) timeMs / BAR_GRAPH_MS_DIVISOR));
-        System.out.println("---");
+        System.out.println(String.format(format, description, length, hash, timeMs, note));
+
+        // This was also some cool formatting :)
+        //System.out.println("Result: " + result.substring(0, 60) + "..." + result.substring(result.length() - 60, result.length()) + " (partial only)");
+        //System.out.println(barGraph((int) timeMs / BAR_GRAPH_MS_DIVISOR));
     }
 
     /**
@@ -564,7 +644,10 @@ public class Contest {
             procTime = (System.currentTimeMillis() - t);
         }
 
-        report("Generate input", input[4], procTime, null);
+        int descriptionWidth = contenders.stream().mapToInt(c -> c.getDescription().length()).max().orElse(20);
+        String headFormat = "%-" + descriptionWidth + "s | %9s | %12s | %4sms | %s";
+        String lineFormat = "%-" + descriptionWidth + "s | %9d | %12d | %4dms | %s";
+        reportHeader(headFormat, input[4], procTime);
 
         Integer checkHash = null;
         for (Contender contender : contenders) {
@@ -581,7 +664,7 @@ public class Contest {
                 procTime = (System.currentTimeMillis() - t);
             }
 
-            report(contender.getDescription(), result, procTime, checkHash);
+            report(lineFormat, contender.getDescription(), result, procTime, checkHash);
             if (checkHash == null && result != null) {
                 // assume the first test is OK, all tests should show same hashcode...
                 checkHash = result.hashCode();
