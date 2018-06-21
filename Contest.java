@@ -484,6 +484,11 @@ public class Contest {
                     return "(#16) Jan-5, ForkJoinPool (direct write)";
                 }
 
+                private final char A = 'A';
+                private final char T = 'T';
+                private final char C = 'C';
+                private final char G = 'G';
+
                 class ChainOpposite extends RecursiveAction {
                     private final char[] actionSource;
                     private final int actionStart;
@@ -497,14 +502,14 @@ public class Contest {
 
                     void computeDirectly() {
                         for (int index = actionStart; index < actionStart + actionLength; index++) {
-                            if ('A' == actionSource[index]) {
-                                actionSource[index] = 'T';
-                            } else if ('T' == actionSource[index]) {
-                                actionSource[index] = 'A';
-                            } else if ('C' == actionSource[index]) {
-                                actionSource[index] = 'G';
-                            } else if ('G' == actionSource[index]) {
-                                actionSource[index] = 'C';
+                            if (A == actionSource[index]) {
+                                actionSource[index] = T;
+                            } else if (T == actionSource[index]) {
+                                actionSource[index] = A;
+                            } else if (C == actionSource[index]) {
+                                actionSource[index] = G;
+                            } else if (G == actionSource[index]) {
+                                actionSource[index] = C;
                             }
                         }
 
