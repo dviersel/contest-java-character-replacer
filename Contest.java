@@ -1,4 +1,10 @@
-import java.util.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.stream.IntStream;
@@ -131,23 +137,6 @@ public class Contest {
                             .replace('T', 'a')
                             .replace('C', 'g')
                             .replace('G', 'c')
-                            .toUpperCase();
-                }
-            },
-            ////////////////////////////////////////////////////////
-            new Contender() {
-                @Override
-                public String getDescription() {
-                    return "(#5-b) Thijs-1, simple replace + to-upper (half of them to-upper)";
-                }
-
-                @Override
-                public String convert(String input) {
-                    return input
-                            .replace('A', 't')
-                            .replace('T', 'A')
-                            .replace('C', 'g')
-                            .replace('G', 'C')
                             .toUpperCase();
                 }
             },
@@ -447,20 +436,17 @@ public class Contest {
 
                 @Override
                 public String convert(String input) {
-                    // Split input in multiple parts
-                    final char[] inputChars = input.toCharArray();
-
-                    IntStream.range(0, partCount).parallel().forEach(block -> multiReplace(inputChars, block));
+                    IntStream.range(0, partCount).parallel().forEach(block -> multiReplace(input, block));
 
                     return new String(outputChars);
                 }
 
-                void multiReplace(final char[] inputChars, long block) {
+                void multiReplace(final String input, long block) {
                     int start = new Long(block * CHAIN_SIZE / partCount).intValue();
                     int end = start + CHAIN_SIZE / partCount;
 
                     for (int i = start; i < end; i++) {
-                        switch (inputChars[i]) {
+                        switch (input.charAt(i)) {
                             case 'A':
                                 outputChars[i] = 'T';
                                 break;
@@ -540,6 +526,74 @@ public class Contest {
 
                     return new String(dirtyInput);
                 }
+            },
+            ////////////////////////////////////////////////////////
+            new Contender() {
+                int partCount = 200;
+                String input;
+
+                @Override
+                public String getDescription() {
+                    return "(#17) Milo-4, parallel char replace with direct access in String";
+                }
+
+                @Override
+                public String convert(String input) {
+                    try {
+                        // Get internal String char[] value
+                        Field valueField = String.class.getDeclaredField("value");
+                        valueField.setAccessible(true);
+                        char[] value = (char[])valueField.get(input);
+                        // Force recalculation of the hash
+                        Field hashField = String.class.getDeclaredField("hash");
+                        hashField.setAccessible(true);
+                        hashField.set(input, 0);
+
+                        IntStream.range(0, partCount).parallel().forEach(block -> multiReplace(value, block));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return input;
+                }
+
+                void multiReplace(final char[] value, long block) {
+                    int start = new Long(block * CHAIN_SIZE / partCount).intValue();
+                    int end = start + CHAIN_SIZE / partCount;
+
+                    for (int i = start; i < end; i++) {
+                        switch (value[i]) {
+                            case 'A':
+                                value[i] = 'T';
+                                break;
+                            case 'T':
+                                value[i] = 'A';
+                                break;
+                            case 'C':
+                                value[i] = 'G';
+                                break;
+                            case 'G':
+                                value[i] = 'C';
+                                break;
+                        }
+                    }
+                }
+            },
+            ////////////////////////////////////////////////////////
+            new Contender() {
+                @Override
+                public String getDescription() {
+                    return "(#18) Thijs-5, simple replace + to-upper (half of them to-upper)";
+                }
+
+                @Override
+                public String convert(String input) {
+                    return input
+                            .replace('A', 't')
+                            .replace('T', 'A')
+                            .replace('C', 'g')
+                            .replace('G', 'C')
+                            .toUpperCase();
+                }
             }
             ////////////////////////////////////////////////////////
     );
@@ -571,19 +625,6 @@ public class Contest {
     }
 
     /**
-     * Show bar graph of result speed.
-     * @param size number of #-es to show.
-     * @return "bar".
-     */
-    private static String barGraph(int size) {
-        StringBuilder graph = new StringBuilder(size);
-        for (int i = 0; i < size ; i++) {
-            graph.append("#");
-        }
-        return graph.toString();
-    }
-
-    /**
      * Write report header.
      *
      * @param format the format
@@ -610,7 +651,7 @@ public class Contest {
      * @param timeMs convert run duration
      * @param checkHash result must match this hash
      */
-    private static void report(String format, String description, String result, long timeMs, Integer checkHash) {
+    private static void report(String format, String description, String result, long timeMs, Integer checkHash, boolean immutableBreach) {
         int length = result != null ? result.length() : -1;
         int hash = result != null ? result.hashCode() : -1;
         String note = "";
@@ -621,11 +662,10 @@ public class Contest {
         if (checkHash != null && checkHash != hash) {
             note += "Hash-code mismatch.";
         }
+        if (immutableBreach) {
+            note += "Code did update immutable input string!";
+        }
         System.out.println(String.format(format, description, length, hash, timeMs, note));
-
-        // This was also some cool formatting :)
-        //System.out.println("Result: " + result.substring(0, 60) + "..." + result.substring(result.length() - 60, result.length()) + " (partial only)");
-        //System.out.println(barGraph((int) timeMs / BAR_GRAPH_MS_DIVISOR));
     }
 
     /**
@@ -654,17 +694,31 @@ public class Contest {
 
             // We run the contender 5 times, to get a "warming-up" (jit compiler optimization).
             String result = null;
+            boolean immutableBreach = false;
             for (int warmingUps = 0 ; warmingUps < 5 ; warmingUps++) {
+                String backupCopyOfImmutableString = ">" + input[warmingUps];
+
                 // Cleanup memory (I know, we are not smarter than JVM, but trying anyway)
                 Runtime.getRuntime().gc();
                 Thread.sleep(500);
 
                 long t = System.currentTimeMillis();
-                result = contender.convert(input[warmingUps]);
-                procTime = (System.currentTimeMillis() - t);
+                try {
+                    result = contender.convert(input[warmingUps]);
+                } catch (Exception e) {
+                    System.out.println("*** exception in " + contender.getDescription() + " *** " + e.getMessage());
+                    result = null;
+                } finally {
+                    procTime = (System.currentTimeMillis() - t);
+                }
+
+                if (!backupCopyOfImmutableString.substring(1).equals(input[warmingUps])) {
+                    immutableBreach = true;
+                    input[warmingUps] = backupCopyOfImmutableString.substring(1);
+                }
             }
 
-            report(lineFormat, contender.getDescription(), result, procTime, checkHash);
+            report(lineFormat, contender.getDescription(), result, procTime, checkHash, immutableBreach);
             if (checkHash == null && result != null) {
                 // assume the first test is OK, all tests should show same hashcode...
                 checkHash = result.hashCode();
