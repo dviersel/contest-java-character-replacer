@@ -3,74 +3,30 @@ java version "1.8.0_152"
 Java(TM) SE Runtime Environment (build 1.8.0_152-b16)
 Java HotSpot(TM) 64-Bit Server VM (build 25.152-b16, mixed mode)
 
-Generate input, result length: 22000000, result hash: -1865429268, process-time: 299 ms
-Result: GCTTCGCCCGTTACCAGCGACACTACTCAGAGGGATCACATTAAGATGCGGTTTTATATA...CAACTATCACGGTCGTACGTAAGCAAAGGAGACGCACTCGCAGGAGATTCATGCGCCCAT (partial only)
-#############################
----
-(#1) Edwin-1, Map and Stream to StringBuilder, result length: 22000000, result hash: -2069379698, process-time: 442 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-############################################
----
-(#2) Edwin-2, Map and For to StringBuilder, result length: 22000000, result hash: -2069379698, process-time: 420 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-##########################################
----
-(#3) Edwin-3, Map and For to StringBuffer, result length: 22000000, result hash: -2069379698, process-time: 415 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-#########################################
----
-(#4) Edwin-4, Parallel stream version, result length: 22000000, result hash: -2069379698, process-time: 539 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-#####################################################
----
-(#5) Thijs-1, simple replace + to-upper, result length: 22000000, result hash: -2069379698, process-time: 130 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-#############
----
-(#5-b) Thijs-1, simple replace + to-upper (half of them to-upper), result length: 22000000, result hash: -2069379698, process-time: 198 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-###################
----
-(#6) Thijs-2, For with if/else to StringBuilder, result length: 22000000, result hash: -2069379698, process-time: 191 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-###################
----
-(#7) Thijs-3, For with switch/case to StringBuilder, result length: 22000000, result hash: -2069379698, process-time: 218 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-#####################
----
-(#8) Thijs-4, For with if/else to byte array, result length: 22000000, result hash: -2069379698, process-time: 151 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-###############
----
-(#9) Armand-1, replace with look-ahead regex (TODO // reserved spot, to be coded) - NO DATA
----
-(#10) Jan-1, dirty :), result length: 22000000, result hash: -2069379698, process-time: 166 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-################
----
-(#11) Jan-2, simple replace + no-upper, result length: 22000000, result hash: -2069379698, process-time: 115 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-###########
----
-(#12) Milo-1, parallel string replace, result length: 22000000, result hash: -2069379698, process-time: 99 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-#########
----
-(#13) Jan-3, Milo-1 + Jan-2, parallel string replace, result length: 22000000, result hash: -2069379698, process-time: 102 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-##########
----
-(#14) Jan-4, ForkJoinPool, result length: 22000000, result hash: -2069379698, process-time: 55 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-#####
----
-(#15) Milo-3, parallel char replace, result length: 22000000, result hash: -2069379698, process-time: 50 ms
-Result: CGAAGCGGGCAATGGTCGCTGTGATGAGTCTCCCTAGTGTAATTCTACGCCAAAATATAT...GTTGATAGTGCCAGCATGCATTCGTTTCCTCTGCGTGAGCGTCCTCTAAGTACGCGGGTA (partial only)
-#####
----
+Generated input (length: 22000000) in 284 ms.
+
+Contender                                                        |    Length |         Hash | Timems | Notes
+------------------------------------------------------------------------------------------------------------
+(#1) Edwin-1, Map and Stream to StringBuilder                    |  22000000 |  -1437706181 |  425ms | 
+(#2) Edwin-2, Map and For to StringBuilder                       |  22000000 |  -1437706181 |  444ms | 
+(#3) Edwin-3, Map and For to StringBuffer                        |  22000000 |  -1437706181 |  427ms | 
+(#4) Edwin-4, Parallel stream version                            |  22000000 |  -1437706181 |  537ms | 
+(#5) Thijs-1, simple replace + to-upper                          |  22000000 |  -1437706181 |  132ms | 
+(#6) Thijs-2, For with if/else to StringBuilder                  |  22000000 |  -1437706181 |  186ms | 
+(#7) Thijs-3, For with switch/case to StringBuilder              |  22000000 |  -1437706181 |  219ms | 
+(#8) Thijs-4, For with if/else to byte array                     |  22000000 |  -1437706181 |  149ms | 
+(#9) Armand-1, replace with look-ahead regex.                    |        -1 |           -1 |    0ms | Length mismatch. Hash-code mismatch.
+(#10) Jan-1, dirty :)                                            |  22000000 |  -1437706181 |  145ms | 
+(#11) Jan-2, simple replace + no-upper                           |  22000000 |  -1437706181 |  116ms | 
+(#12) Milo-1, parallel string replace                            |  22000000 |  -1437706181 |  100ms | 
+(#13) Jan-3, Milo-1 + Jan-2, parallel string replace             |  22000000 |  -1437706181 |  102ms | 
+(#14) Jan-4, ForkJoinPool                                        |  22000000 |  -1437706181 |   56ms | 
+(#15) Milo-3, parallel char replace                              |  22000000 |  -1437706181 |   40ms | 
+(#16) Jan-5, ForkJoinPool (direct write)                         |  22000000 |  -1437706181 |   48ms | 
+(#17) Milo-4, parallel char replace with direct access in String |  22000000 |  -1437706181 |   28ms | Code did update immutable input string!
+(#18) Thijs-5, simple replace + to-upper (half of them to-upper) |  22000000 |  -1437706181 |  210ms | 
 
 CPU info (available if on linux)
-bogomips	: 5785.99
+bogomips	: 5786.48
 model name	: Intel(R) Core(TM) i7-4910MQ CPU @ 2.90GHz
 

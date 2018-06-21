@@ -1,66 +1,44 @@
-Generate input, result length: 22000000, result hash: -1156921359, process-time: 245 ms
-Result: GGGCCCCTGAGGCGGCAACTGACAAATAGTAGCGTGTTCTTGAAGAGCATCCTTTGTAGC...CAGCCGGTATGGGAGGTTGGGATCAATTAAGGTGGGAATTTCTCCAAGGGCCGTTCCGAT (partial only)
-########################
----
-(#1) Edwin-1, Map and Stream to StringBuilder, result length: 22000000, result hash: 321936492, process-time: 476 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-###############################################
----
-(#2) Edwin-2, Map and For to StringBuilder, result length: 22000000, result hash: 321936492, process-time: 439 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-###########################################
----
-(#3) Edwin-3, Map and For to StringBuffer, result length: 22000000, result hash: 321936492, process-time: 463 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-##############################################
----
-(#4) Edwin-4, Parallel stream version, result length: 22000000, result hash: 321936492, process-time: 705 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-######################################################################
----
-(#5) Thijs-1, simple replace + to-upper, result length: 22000000, result hash: 321936492, process-time: 96 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-#########
----
-(#5-b) Thijs-1, simple replace + to-upper (half of them to-upper), result length: 22000000, result hash: 321936492, process-time: 167 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-################
----
-(#6) Thijs-2, For with if/else to StringBuilder, result length: 22000000, result hash: 321936492, process-time: 190 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-###################
----
-(#7) Thijs-3, For with switch/case to StringBuilder, result length: 22000000, result hash: 321936492, process-time: 230 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-#######################
----
-(#8) Thijs-4, For with if/else to byte array, result length: 22000000, result hash: 321936492, process-time: 152 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-###############
----
-(#9) Armand-1, replace with look-ahead regex (TODO // reserved spot, to be coded) - NO DATA
----
-(#10) Jan-1, dirty :), result length: 22000000, result hash: 321936492, process-time: 173 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-#################
----
-(#11) Jan-2, simple replace + no-upper, result length: 22000000, result hash: 321936492, process-time: 83 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-########
----
-(#12) Milo-1, parallel string replace, result length: 22000000, result hash: 321936492, process-time: 73 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-#######
----
-(#13) Jan-3, Milo-1 + Jan-2, parallel string replace, result length: 22000000, result hash: 321936492, process-time: 63 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-######
----
-(#14) Jan-4, ForkJoinPool, result length: 22000000, result hash: 321936492, process-time: 58 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-#####
----
-(#15) Milo-3, parallel char replace, result length: 22000000, result hash: 321936492, process-time: 55 ms
-Result: CCCGGGGACTCCGCCGTTGACTGTTTATCATCGCACAAGAACTTCTCGTAGGAAACATCG...GTCGGCCATACCCTCCAACCCTAGTTAATTCCACCCTTAAAGAGGTTCCCGGCAAGGCTA (partial only)
-#####
----
+Note: Contest.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Generated input (length: 22000000) in 239 ms.
+
+Contender                                                        |    Length |         Hash | Timems | Notes
+------------------------------------------------------------------------------------------------------------
+(#1) Edwin-1, Map and Stream to StringBuilder                    |  22000000 |   1714375058 |  417ms | 
+(#2) Edwin-2, Map and For to StringBuilder                       |  22000000 |   1714375058 |  423ms | 
+(#3) Edwin-3, Map and For to StringBuffer                        |  22000000 |   1714375058 |  488ms | 
+(#4) Edwin-4, Parallel stream version                            |  22000000 |   1714375058 |  550ms | 
+(#5) Thijs-1, simple replace + to-upper                          |  22000000 |   1714375058 |  238ms | 
+(#6) Thijs-2, For with if/else to StringBuilder                  |  22000000 |   1714375058 |  225ms | 
+(#7) Thijs-3, For with switch/case to StringBuilder              |  22000000 |   1714375058 |  234ms | 
+(#8) Thijs-4, For with if/else to byte array                     |  22000000 |   1714375058 |  145ms | 
+(#9) Armand-1, replace with look-ahead regex.                    |        -1 |           -1 |    0ms | Length mismatch. Hash-code mismatch.
+(#10) Jan-1, dirty :)                                            |  22000000 |   1714375058 |  175ms | 
+(#11) Jan-2, simple replace + no-upper                           |  22000000 |   1714375058 |  300ms | 
+(#12) Milo-1, parallel string replace                            |  22000000 |   1714375058 |   96ms | 
+(#13) Jan-3, Milo-1 + Jan-2, parallel string replace             |  22000000 |   1714375058 |  113ms | 
+(#14) Jan-4, ForkJoinPool                                        |  22000000 |   1714375058 |   52ms | 
+(#15) Milo-3, parallel char replace                              |  22000000 |   1714375058 |   38ms | 
+(#16) Jan-5, ForkJoinPool (direct write)                         |  22000000 |   1714375058 |   44ms | 
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by Contest$17 (file:/home/thijs/src/contest-java-character-replacer/) to field java.lang.String.value
+WARNING: Please consider reporting this to the maintainers of Contest$17
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+java.lang.ClassCastException: [B cannot be cast to [C
+	at Contest$17.convert(Contest.java:546)
+	at Contest.main(Contest.java:707)
+java.lang.ClassCastException: [B cannot be cast to [C
+	at Contest$17.convert(Contest.java:546)
+	at Contest.main(Contest.java:707)
+java.lang.ClassCastException: [B cannot be cast to [C
+	at Contest$17.convert(Contest.java:546)
+	at Contest.main(Contest.java:707)
+java.lang.ClassCastException: [B cannot be cast to [C
+	at Contest$17.convert(Contest.java:546)
+	at Contest.main(Contest.java:707)
+java.lang.ClassCastException: [B cannot be cast to [C
+	at Contest$17.convert(Contest.java:546)
+	at Contest.main(Contest.java:707)
+(#17) Milo-4, parallel char replace with direct access in String |  22000000 |  -1885477567 |    0ms | Hash-code mismatch.
+(#18) Thijs-5, simple replace + to-upper (half of them to-upper) |  22000000 |   1714375058 |  312ms | 
