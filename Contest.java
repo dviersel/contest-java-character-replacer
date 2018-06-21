@@ -530,7 +530,6 @@ public class Contest {
             ////////////////////////////////////////////////////////
             new Contender() {
                 int partCount = 200;
-                String input;
 
                 @Override
                 public String getDescription() {
@@ -543,7 +542,7 @@ public class Contest {
                         // Get internal String char[] value
                         Field valueField = String.class.getDeclaredField("value");
                         valueField.setAccessible(true);
-                        char[] value = (char[])valueField.get(input);
+                        Object value = valueField.get(input);
                         // Force recalculation of the hash
                         Field hashField = String.class.getDeclaredField("hash");
                         hashField.setAccessible(true);
@@ -556,24 +555,47 @@ public class Contest {
                     return input;
                 }
 
-                void multiReplace(final char[] value, long block) {
+                void multiReplace(final Object data, long block) {
                     int start = new Long(block * CHAIN_SIZE / partCount).intValue();
                     int end = start + CHAIN_SIZE / partCount;
 
-                    for (int i = start; i < end; i++) {
-                        switch (value[i]) {
-                            case 'A':
-                                value[i] = 'T';
-                                break;
-                            case 'T':
-                                value[i] = 'A';
-                                break;
-                            case 'C':
-                                value[i] = 'G';
-                                break;
-                            case 'G':
-                                value[i] = 'C';
-                                break;
+                    if(data instanceof char[]) {
+                        // java8 implementation
+                        char[] value = (char[])data;
+                        for (int i = start; i < end; i++) {
+                            switch (value[i]) {
+                                case 'A':
+                                    value[i] = 'T';
+                                    break;
+                                case 'T':
+                                    value[i] = 'A';
+                                    break;
+                                case 'C':
+                                    value[i] = 'G';
+                                    break;
+                                case 'G':
+                                    value[i] = 'C';
+                                    break;
+                            }
+                        }
+                    } else {
+                        // java 9 implementation
+                        byte[] value = (byte[])data;
+                        for (int i = start; i < end; i++) {
+                            switch (value[i]) {
+                                case 'A':
+                                    value[i] = 'T';
+                                    break;
+                                case 'T':
+                                    value[i] = 'A';
+                                    break;
+                                case 'C':
+                                    value[i] = 'G';
+                                    break;
+                                case 'G':
+                                    value[i] = 'C';
+                                    break;
+                            }
                         }
                     }
                 }

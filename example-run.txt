@@ -3,28 +3,28 @@ java version "1.8.0_152"
 Java(TM) SE Runtime Environment (build 1.8.0_152-b16)
 Java HotSpot(TM) 64-Bit Server VM (build 25.152-b16, mixed mode)
 
-Generated input (length: 22000000) in 284 ms.
+Generated input (length: 22000000) in 283 ms.
 
 Contender                                                        |    Length |         Hash | Timems | Notes
 ------------------------------------------------------------------------------------------------------------
-(#1) Edwin-1, Map and Stream to StringBuilder                    |  22000000 |  -1437706181 |  425ms | 
-(#2) Edwin-2, Map and For to StringBuilder                       |  22000000 |  -1437706181 |  444ms | 
-(#3) Edwin-3, Map and For to StringBuffer                        |  22000000 |  -1437706181 |  427ms | 
-(#4) Edwin-4, Parallel stream version                            |  22000000 |  -1437706181 |  537ms | 
-(#5) Thijs-1, simple replace + to-upper                          |  22000000 |  -1437706181 |  132ms | 
-(#6) Thijs-2, For with if/else to StringBuilder                  |  22000000 |  -1437706181 |  186ms | 
-(#7) Thijs-3, For with switch/case to StringBuilder              |  22000000 |  -1437706181 |  219ms | 
-(#8) Thijs-4, For with if/else to byte array                     |  22000000 |  -1437706181 |  149ms | 
+(#1) Edwin-1, Map and Stream to StringBuilder                    |  22000000 |   1590782346 |  426ms | 
+(#2) Edwin-2, Map and For to StringBuilder                       |  22000000 |   1590782346 |  484ms | 
+(#3) Edwin-3, Map and For to StringBuffer                        |  22000000 |   1590782346 |  443ms | 
+(#4) Edwin-4, Parallel stream version                            |  22000000 |   1590782346 |  574ms | 
+(#5) Thijs-1, simple replace + to-upper                          |  22000000 |   1590782346 |  126ms | 
+(#6) Thijs-2, For with if/else to StringBuilder                  |  22000000 |   1590782346 |  202ms | 
+(#7) Thijs-3, For with switch/case to StringBuilder              |  22000000 |   1590782346 |  220ms | 
+(#8) Thijs-4, For with if/else to byte array                     |  22000000 |   1590782346 |  146ms | 
 (#9) Armand-1, replace with look-ahead regex.                    |        -1 |           -1 |    0ms | Length mismatch. Hash-code mismatch.
-(#10) Jan-1, dirty :)                                            |  22000000 |  -1437706181 |  145ms | 
-(#11) Jan-2, simple replace + no-upper                           |  22000000 |  -1437706181 |  116ms | 
-(#12) Milo-1, parallel string replace                            |  22000000 |  -1437706181 |  100ms | 
-(#13) Jan-3, Milo-1 + Jan-2, parallel string replace             |  22000000 |  -1437706181 |  102ms | 
-(#14) Jan-4, ForkJoinPool                                        |  22000000 |  -1437706181 |   56ms | 
-(#15) Milo-3, parallel char replace                              |  22000000 |  -1437706181 |   40ms | 
-(#16) Jan-5, ForkJoinPool (direct write)                         |  22000000 |  -1437706181 |   48ms | 
-(#17) Milo-4, parallel char replace with direct access in String |  22000000 |  -1437706181 |   28ms | Code did update immutable input string!
-(#18) Thijs-5, simple replace + to-upper (half of them to-upper) |  22000000 |  -1437706181 |  210ms | 
+(#10) Jan-1, dirty :)                                            |  22000000 |   1590782346 |  147ms | 
+(#11) Jan-2, simple replace + no-upper                           |  22000000 |   1590782346 |  118ms | 
+(#12) Milo-1, parallel string replace                            |  22000000 |   1590782346 |   96ms | 
+(#13) Jan-3, Milo-1 + Jan-2, parallel string replace             |  22000000 |   1590782346 |  104ms | 
+(#14) Jan-4, ForkJoinPool                                        |  22000000 |   1590782346 |   53ms | 
+(#15) Milo-3, parallel char replace                              |  22000000 |   1590782346 |   38ms | 
+(#16) Jan-5, ForkJoinPool (direct write)                         |  22000000 |   1590782346 |   46ms | 
+(#17) Milo-4, parallel char replace with direct access in String |  22000000 |   1590782346 |   28ms | Code did update immutable input string!
+(#18) Thijs-5, simple replace + to-upper (half of them to-upper) |  22000000 |   1590782346 |  202ms | 
 
 CPU info (available if on linux)
 bogomips	: 5786.48
