@@ -12,12 +12,10 @@ class ContenderDylan5 : Contest.Contender {
   override fun convert(input: String): String {
     val chars = input.toCharArray()
 
-val job =       launch {
-        convert2(chars, 0, chars.size)
-      }
-
     runBlocking {
-      job.join()
+      val job = launch {
+        convert2(chars, 0, chars.size)
+      }.join()
     }
     return chars.joinToString("")
   }
