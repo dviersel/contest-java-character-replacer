@@ -1,3 +1,5 @@
+package contest;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -619,7 +621,8 @@ public class Contest {
 
         },
         ////////////////////////////////////////////////////////
-        new ContenderDylan1()
+        new ContenderDylan1(),
+        new ContenderDylan2()
         ////////////////////////////////////////////////////////
     );
 

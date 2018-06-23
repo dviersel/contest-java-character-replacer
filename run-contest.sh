@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # compile
+cd src/main/java
 javac Contest.java
 
 # run

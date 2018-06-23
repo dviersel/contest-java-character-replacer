@@ -1,22 +1,14 @@
+package contest;
+
 public class ContenderDylan1 implements Contest.Contender {
 
   @Override
   public String getDescription() {
-    return "(#19) Dylan-1, simple recursive impl.";
+    return "(#19) Dylan-1, simple linear impl.";
   }
 
   @Override
   public String convert(String input) {
-
-    if (input.length() > 10) {
-      return complement(input);
-    } else {
-      int split = input.length() / 2;
-      return convert(input.substring(0, split)) + convert(input.substring(split));
-    }
-  }
-
-  String complement(String input) {
     char[] charArray = input.toCharArray();
     for (int i = 0; i < input.length(); i++) {
       switch (charArray[i]) {
