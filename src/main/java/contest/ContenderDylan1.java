@@ -4,7 +4,7 @@ public class ContenderDylan1 implements Contest.Contender {
 
   @Override
   public String getDescription() {
-    return "(#19) Dylan-1, simple linear impl.";
+    return "(#19) Dylan-1, simple linear impl. For comparison.";
   }
 
   @Override

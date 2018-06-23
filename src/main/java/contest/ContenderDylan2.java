@@ -4,7 +4,7 @@ public class ContenderDylan2 implements Contest.Contender {
 
   @Override
   public String getDescription() {
-    return "(#20) Dylan-1, simple recursive impl.";
+    return "(#20) Dylan-2, simple recursive impl. Yikes...";
   }
 
   @Override

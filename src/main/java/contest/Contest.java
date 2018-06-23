@@ -622,7 +622,10 @@ public class Contest {
         },
         ////////////////////////////////////////////////////////
         new ContenderDylan1(),
-        new ContenderDylan2()
+        new ContenderDylan2(),
+        new ContenderDylan3(),
+        new ContenderDylan4()
+
         ////////////////////////////////////////////////////////
     );
 
