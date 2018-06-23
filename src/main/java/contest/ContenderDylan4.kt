@@ -1,15 +1,13 @@
 package contest
 
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.experimental.*
 
 class ContenderDylan4 : Contest.Contender {
 
-  val chunks = Runtime.getRuntime().availableProcessors() * 8
+  val chunks = Runtime.getRuntime().availableProcessors() *4
 
   override fun getDescription(): String {
-    return "(#23) Dylan-4, Kotlin co-routines"
+    return "(#23) Dylan-4, Kotlin co-routines (iterative)"
   }
 
   override fun convert(input: String): String {
@@ -18,7 +16,7 @@ class ContenderDylan4 : Contest.Contender {
     val jobs = arrayListOf<Job>()
     for (i in 0 until chunks) {
       jobs.add(
-          launch { complement(chars, i * size, (i + 1) * size) }
+          launch(CommonPool) { complement(chars, i * size, (i + 1) * size) }
       )
     }
     runBlocking {

@@ -409,7 +409,8 @@ public class Contest {
 
                     int split = mLength / 2;
 
-                    invokeAll(new ChainOpposite(mSource, mStart, split, mDestination),
+                    invokeAll(
+                        new ChainOpposite(mSource, mStart, split, mDestination),
                         new ChainOpposite(mSource, mStart + split, mLength - split,
                             mDestination));
                 }
@@ -624,7 +625,8 @@ public class Contest {
         new ContenderDylan1(),
         new ContenderDylan2(),
         new ContenderDylan3(),
-        new ContenderDylan4()
+        new ContenderDylan4(),
+        new ContenderDylan5()
 
         ////////////////////////////////////////////////////////
     );

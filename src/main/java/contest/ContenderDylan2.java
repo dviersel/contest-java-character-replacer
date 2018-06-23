@@ -10,7 +10,7 @@ public class ContenderDylan2 implements Contest.Contender {
   @Override
   public String convert(String input) {
 
-    if (input.length() < 10) {
+    if (input.length() < 1000) {
       return complement(input);
     } else {
       int split = input.length() / 2;
